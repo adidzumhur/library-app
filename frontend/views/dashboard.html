@@ -1,0 +1,73 @@
+<h1 class="h3 page-title mb-1">Dashboard</h1>
+<p class="text-muted mb-4">Welcome back! Here is an overview of the library.</p>
+
+<!-- Statistics (admin view) -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center">
+        <div><div class="text-muted small">Books</div><div class="h4 mb-0">248</div></div>
+        <i class="bi bi-book stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center">
+        <div><div class="text-muted small">Members</div><div class="h4 mb-0">57</div></div>
+        <i class="bi bi-people stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center">
+        <div><div class="text-muted small">Active loans</div><div class="h4 mb-0">31</div></div>
+        <i class="bi bi-arrow-left-right stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center">
+        <div><div class="text-muted small">Overdue</div><div class="h4 mb-0 text-danger">4</div></div>
+        <i class="bi bi-exclamation-triangle stat-icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <!-- Recent loans -->
+  <div class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <strong>Recent loans</strong>
+        <a href="#loans" class="small">View all</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead><tr><th>Book</th><th>Member</th><th>Due date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>1984</td><td>Emir Kovač</td><td>02.11.2026</td><td><span class="badge bg-primary">Borrowed</span></td></tr>
+            <tr><td>The Hobbit</td><td>Lejla Begić</td><td>20.10.2026</td><td><span class="badge bg-danger">Overdue</span></td></tr>
+            <tr><td>Clean Code</td><td>Tarik Mehić</td><td>15.10.2026</td><td><span class="badge bg-success">Returned</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular categories -->
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-header bg-white"><strong>Popular categories</strong></div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between">Fiction <span class="badge bg-secondary">92</span></li>
+        <li class="list-group-item d-flex justify-content-between">Fantasy <span class="badge bg-secondary">48</span></li>
+        <li class="list-group-item d-flex justify-content-between">Programming <span class="badge bg-secondary">37</span></li>
+        <li class="list-group-item d-flex justify-content-between">History <span class="badge bg-secondary">21</span></li>
+      </ul>
+    </div>
+  </div>
+</div>

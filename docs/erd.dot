@@ -1,0 +1,81 @@
+digraph ERD {
+  graph [rankdir=LR, fontname="Helvetica", bgcolor="white", pad=0.4, nodesep=0.6, ranksep=1.1];
+  node  [shape=plain, fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=10, color="#1f3a5f", arrowhead=crow, arrowtail=tee, dir=both];
+
+  users [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>users</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td></td><td align="left">first_name VARCHAR(50)</td></tr>
+    <tr><td></td><td align="left">last_name VARCHAR(50)</td></tr>
+    <tr><td></td><td align="left">email VARCHAR(100) UNIQUE</td></tr>
+    <tr><td></td><td align="left">password_hash VARCHAR(255)</td></tr>
+    <tr><td></td><td align="left">role ENUM('admin','member')</td></tr>
+    <tr><td></td><td align="left">created_at DATETIME</td></tr>
+  </table>>];
+
+  authors [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>authors</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td></td><td align="left">first_name VARCHAR(50)</td></tr>
+    <tr><td></td><td align="left">last_name VARCHAR(50)</td></tr>
+    <tr><td></td><td align="left">nationality VARCHAR(50)</td></tr>
+    <tr><td></td><td align="left">birth_year INT</td></tr>
+    <tr><td></td><td align="left">biography TEXT</td></tr>
+  </table>>];
+
+  categories [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>categories</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td></td><td align="left">name VARCHAR(50) UNIQUE</td></tr>
+    <tr><td></td><td align="left">description VARCHAR(255)</td></tr>
+  </table>>];
+
+  books [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>books</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td></td><td align="left">title VARCHAR(150)</td></tr>
+    <tr><td></td><td align="left">isbn VARCHAR(13) UNIQUE</td></tr>
+    <tr><td></td><td align="left">publication_year INT</td></tr>
+    <tr><td></td><td align="left">description TEXT</td></tr>
+    <tr><td></td><td align="left">cover_url VARCHAR(255)</td></tr>
+    <tr><td></td><td align="left">total_copies INT</td></tr>
+    <tr><td></td><td align="left">available_copies INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">author_id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">category_id INT</td></tr>
+  </table>>];
+
+  loans [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>loans</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">user_id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">book_id INT</td></tr>
+    <tr><td></td><td align="left">loan_date DATE</td></tr>
+    <tr><td></td><td align="left">due_date DATE</td></tr>
+    <tr><td></td><td align="left">return_date DATE NULL</td></tr>
+    <tr><td></td><td align="left">status ENUM('borrowed','returned','overdue')</td></tr>
+  </table>>];
+
+  reviews [label=<
+  <table border="0" cellborder="1" cellspacing="0" cellpadding="5">
+    <tr><td bgcolor="#1f3a5f" colspan="2"><font color="white"><b>reviews</b></font></td></tr>
+    <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">user_id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">book_id INT</td></tr>
+    <tr><td></td><td align="left">rating TINYINT (1-5)</td></tr>
+    <tr><td></td><td align="left">comment TEXT</td></tr>
+    <tr><td></td><td align="left">created_at DATETIME</td></tr>
+  </table>>];
+
+  authors    -> books   [label="writes  1 : N"];
+  categories -> books   [label="contains  1 : N"];
+  users      -> loans   [label="borrows  1 : N"];
+  books      -> loans   [label="is loaned  1 : N"];
+  users      -> reviews [label="writes  1 : N"];
+  books      -> reviews [label="has  1 : N"];
+}

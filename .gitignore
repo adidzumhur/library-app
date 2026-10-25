@@ -1,0 +1,16 @@
+# Secrets - never commit the real config
+backend/config/config.php
+
+# Logs
+backend/logs/*
+!backend/logs/.gitkeep
+
+# Composer dependencies
+backend/vendor/
+vendor/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
