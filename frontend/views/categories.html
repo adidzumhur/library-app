@@ -1,0 +1,41 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <h1 class="h3 page-title mb-0">Categories</h1>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal"><i class="bi bi-plus-lg me-1"></i>Add category</button>
+</div>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Name</th><th>Description</th><th>Books</th><th class="text-end">Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Fiction</td><td>Novels and short stories</td><td>92</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>Fantasy</td><td>Magic, myths and other worlds</td><td>48</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>Programming</td><td>Software development books</td><td>37</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>History</td><td>Historical non-fiction</td><td>21</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="categoryModalLabel">Add / edit category</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3"><label class="form-label" for="category-name">Name</label><input class="form-control" id="category-name"></div>
+        <div class="mb-3"><label class="form-label" for="category-description">Description</label><textarea class="form-control" id="category-description" rows="2"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

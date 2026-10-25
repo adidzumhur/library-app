@@ -1,0 +1,68 @@
+<a href="#books" class="small d-inline-block mb-3"><i class="bi bi-arrow-left me-1"></i>Back to books</a>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="book-cover cover-1 cover-large">1984</div>
+  </div>
+  <div class="col-md-8">
+    <h1 class="h3 page-title mb-1">1984</h1>
+    <p class="text-muted">by <a href="#authors">George Orwell</a> · <a href="#categories">Fiction</a></p>
+    <p class="rating mb-2">
+      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+      <span class="text-muted small ms-1">4.5 (12 reviews)</span>
+    </p>
+    <dl class="row small">
+      <dt class="col-sm-4">ISBN</dt><dd class="col-sm-8">9780451524935</dd>
+      <dt class="col-sm-4">Publication year</dt><dd class="col-sm-8">1949</dd>
+      <dt class="col-sm-4">Available copies</dt><dd class="col-sm-8">3 of 5</dd>
+    </dl>
+    <p>A dystopian novel about a totalitarian regime that uses constant surveillance and propaganda to control society.</p>
+    <button class="btn btn-primary"><i class="bi bi-bookmark-plus me-1"></i>Borrow this book</button>
+  </div>
+</div>
+
+<hr class="my-4">
+
+<div class="row g-4">
+  <!-- Reviews list -->
+  <div class="col-lg-7">
+    <h2 class="h5 mb-3">Reviews</h2>
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <strong>Lejla Begić</strong>
+          <span class="rating small"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
+        </div>
+        <p class="small mb-0 mt-1">A must-read. Still relevant today.</p>
+      </div>
+    </div>
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <strong>Emir Kovač</strong>
+          <span class="rating small"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span>
+        </div>
+        <p class="small mb-0 mt-1">Dark but brilliant. The ending stays with you.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add review -->
+  <div class="col-lg-5">
+    <h2 class="h5 mb-3">Write a review</h2>
+    <form id="review-form" class="card card-body">
+      <div class="mb-3">
+        <label class="form-label" for="review-rating">Rating</label>
+        <select class="form-select" id="review-rating">
+          <option value="5">5 - Excellent</option><option value="4">4 - Very good</option>
+          <option value="3">3 - Good</option><option value="2">2 - Fair</option><option value="1">1 - Poor</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="review-comment">Comment</label>
+        <textarea class="form-control" id="review-comment" rows="3"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary">Submit review</button>
+    </form>
+  </div>
+</div>

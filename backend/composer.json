@@ -1,0 +1,9 @@
+{
+    "name": "student/library-app",
+    "description": "REST backend for the Library web application (IT 2001 - Web Programming)",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "flightphp/core": "^3.0"
+    }
+}
