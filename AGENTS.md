@@ -17,7 +17,12 @@ imported by ISBN from the Open Library API.
 2. Backend layers, called only in this order: **route → service → DAO → database**.
    - Routes: read the request, call a service, return JSON with the correct HTTP status code.
    - Services: validation and business logic. Only services may call DAOs.
-   - DAOs: SQL only. Every DAO extends `BaseDao`, which holds the reusable CRUD methods.
+   - DAOs: SQL only. Every DAO extends `BaseDao`, which holds the reusable CRUD methods
+     (`getAll`, `getById`, `insert`, `update`, `delete`) and the `query`/`queryOne` helpers.
+   - A new DAO only sets `$table` and the `$columns` whitelist, and adds entity-specific queries.
+     Only columns in `$columns` can be inserted or updated (column names cannot be prepared-statement parameters).
+   - DAOs return arrays (or `null` when a row is not found) and never echo output or build HTTP responses.
+   - The PDO connection is created only in `backend/dao/Database.php` and reads `backend/config/config.php`.
 3. Middleware is registered in FlightPHP and reused; never copy auth/role checks into individual routes.
 4. Frontend MVC: only files in `frontend/js/services/` make AJAX calls; views never call the API directly.
 5. The SPA router is in `frontend/js/app.js`; each page is a template in `frontend/views/` and is loaded via the URL hash.
@@ -26,8 +31,10 @@ imported by ISBN from the Open Library API.
 
 ## Folder structure
 ```
-backend/  config/ dao/ services/ routes/ middleware/ logs/
+backend/  config/ dao/ services/ routes/ middleware/ logs/ tests/
+          dao/Database.php  dao/BaseDao.php  dao/<Entity>Dao.php  tests/dao_test.php
 frontend/ index.html css/ js/ views/ assets/
+database/ library_db.sql  (schema + sample data)
 docs/     ERD.md erd.dot erd.png AI_LOG.md
 ```
 
@@ -44,5 +51,9 @@ docs/     ERD.md erd.dot erd.png AI_LOG.md
 - Do not add new libraries or frameworks without asking.
 - Follow the layer order and naming conventions above.
 - Always use prepared statements; never concatenate user input into SQL.
+  With `ATTR_EMULATE_PREPARES = false` a named placeholder can be used only once per query (use `:term1`, `:term2`).
+- For `LIKE` searches use `BaseDao::likePattern()`, which escapes the `%` and `_` wildcards.
+- Any change to the database schema must be made in `database/library_db.sql` and reflected in `docs/ERD.md` and `docs/erd.dot`.
+- After changing a DAO, run `backend/tests/dao_test.php`; all checks must pass.
 - Add short comments explaining non-obvious logic.
 - Do not commit or print secrets.

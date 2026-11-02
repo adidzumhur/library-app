@@ -1,6 +1,7 @@
 # BookNest – Library Management System
 
-> **Status:** Milestone 1 (draft) – project structure, static SPA frontend and ERD.
+> **Status:** Milestone 2 – MySQL database with sample data and DAO layer.
+> Milestone 1: project structure, static SPA frontend and ERD.
 
 BookNest is a single-page web application for managing a small library. Members can browse the catalog, borrow books and write reviews. Administrators manage books, authors, categories, loans and users. New books can be imported automatically by ISBN using the Open Library API.
 
@@ -23,7 +24,7 @@ Course: IT 2001 – Web Programming, International Burch University.
 | `users` | Library members and administrators |
 | `authors` | Book authors |
 | `categories` | Book genres / categories |
-| `books` | Books in the catalog (belongs to one author and one category) |
+| `books` | Books in the catalog (belongs to one author and optionally one category) |
 | `loans` | A user borrowing a book (loan date, due date, return date, status) |
 | `reviews` | A user's rating (1–5) and comment for a book |
 
@@ -40,12 +41,12 @@ Full ERD: [docs/ERD.md](docs/ERD.md)
 | **admin** | Full CRUD on all entities, manages users and loans, imports books via ISBN |
 | **member** | Views books, authors and categories; borrows books; creates/edits own reviews; edits own profile |
 
-Test accounts *(will be added in Milestone 4)*:
+Test accounts (included in the sample data; login is implemented in Milestone 4):
 
 | Role | Email | Password |
 |---|---|---|
-| admin | admin@booknest.com | _TBD_ |
-| member | member@booknest.com | _TBD_ |
+| admin | admin@booknest.com | admin123 |
+| member | emir@example.com | member123 |
 
 ## External API
 
@@ -57,7 +58,8 @@ Test accounts *(will be added in Milestone 4)*:
 library-app/
 ├── backend/
 │   ├── config/        # config.example.php (config.php is git-ignored)
-│   ├── dao/           # Data access layer (Milestone 2)
+│   ├── dao/           # Data access layer: Database, BaseDao + one DAO per entity
+│   ├── tests/         # dao_test.php - CRUD test for all DAOs
 │   ├── services/      # Business logic (Milestone 3)
 │   ├── routes/        # FlightPHP routes (Milestone 3)
 │   ├── middleware/    # Auth, roles, logging, errors (Milestone 4)
@@ -68,6 +70,8 @@ library-app/
 │   ├── js/            # app.js = SPA router
 │   ├── views/         # HTML templates loaded by the router
 │   └── assets/
+├── database/
+│   └── library_db.sql # Schema + sample data
 ├── docs/              # ERD, AI_LOG.md
 ├── AGENTS.md
 └── README.md
@@ -85,10 +89,16 @@ php -S localhost:8000 -t frontend
 ```
 Then open http://localhost:8000.
 
-Backend setup (from Milestone 2):
-1. Import the `.sql` file into MySQL.
-2. Copy `backend/config/config.example.php` to `backend/config/config.php` and fill in your database credentials and JWT secret.
-3. Run `composer install` in `backend/`.
+### Database and backend setup
+
+1. **Import the database.** Start Apache and MySQL in XAMPP, open http://localhost/phpmyadmin, click **Import**, choose `database/library_db.sql` and click **Go** (Import / Upload).
+   The script creates the `library_db` database with all tables and sample data. Terminal alternative:
+   ```bash
+   mysql -u root -p < database/library_db.sql
+   ```
+2. **Create the configuration file.** Copy `backend/config/config.example.php` to `backend/config/config.php` and fill in your database credentials (the defaults work with a fresh XAMPP installation: user `root`, empty password). `config.php` is git-ignored and must never be committed.
+3. **Test the DAO layer.** Open http://localhost/<repository-name>/backend/tests/dao_test.php. It runs create, read, update and delete for every entity, deletes its own test records at the end and prints `Result: N passed, 0 failed`.
+4. From Milestone 3: run `composer install` in `backend/`.
 
 ## Links
 

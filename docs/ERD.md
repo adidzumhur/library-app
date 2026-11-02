@@ -1,4 +1,4 @@
-# Entity-Relationship Diagram (draft)
+# Entity-Relationship Diagram
 
 ![ERD](erd.png)
 
@@ -28,7 +28,7 @@ erDiagram
         varchar first_name
         varchar last_name
         varchar nationality
-        int birth_year
+        smallint birth_year
         text biography
     }
     CATEGORIES {
@@ -40,13 +40,13 @@ erDiagram
         int id PK
         varchar title
         varchar isbn UK
-        int publication_year
+        smallint publication_year
         text description
         varchar cover_url
         int total_copies
         int available_copies
         int author_id FK
-        int category_id FK
+        int category_id FK "nullable"
     }
     LOANS {
         int id PK
@@ -61,7 +61,7 @@ erDiagram
         int id PK
         int user_id FK
         int book_id FK
-        tinyint rating "1-5"
+        tinyint rating "CHECK 1-5"
         text comment
         datetime created_at
     }
@@ -79,3 +79,19 @@ erDiagram
 | A book has many reviews | 1 : N | `reviews.book_id → books.id` |
 
 `loans` and `reviews` also act as the link between `users` and `books` (a many-to-many relationship resolved through these two tables).
+
+## Constraints and delete rules
+
+The SQL implementation is in [`database/library_db.sql`](../database/library_db.sql).
+
+| Foreign key | On delete | Reason |
+|---|---|---|
+| `books.author_id` | `RESTRICT` | An author who still has books cannot be deleted |
+| `books.category_id` | `SET NULL` | Deleting a category keeps its books, without a category |
+| `loans.user_id`, `loans.book_id` | `CASCADE` | Loans are removed together with the user or book |
+| `reviews.user_id`, `reviews.book_id` | `CASCADE` | Reviews are removed together with the user or book |
+
+Other constraints:
+- `users.email`, `categories.name` and `books.isbn` are `UNIQUE`.
+- `reviews (user_id, book_id)` is `UNIQUE`: a user can review a book only once.
+- `CHECK` constraints: `reviews.rating` between 1 and 5, `books.available_copies <= total_copies`, `loans.due_date >= loan_date`.

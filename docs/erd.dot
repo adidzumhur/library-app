@@ -22,7 +22,7 @@ digraph ERD {
     <tr><td></td><td align="left">first_name VARCHAR(50)</td></tr>
     <tr><td></td><td align="left">last_name VARCHAR(50)</td></tr>
     <tr><td></td><td align="left">nationality VARCHAR(50)</td></tr>
-    <tr><td></td><td align="left">birth_year INT</td></tr>
+    <tr><td></td><td align="left">birth_year SMALLINT</td></tr>
     <tr><td></td><td align="left">biography TEXT</td></tr>
   </table>>];
 
@@ -40,13 +40,13 @@ digraph ERD {
     <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
     <tr><td></td><td align="left">title VARCHAR(150)</td></tr>
     <tr><td></td><td align="left">isbn VARCHAR(13) UNIQUE</td></tr>
-    <tr><td></td><td align="left">publication_year INT</td></tr>
+    <tr><td></td><td align="left">publication_year SMALLINT</td></tr>
     <tr><td></td><td align="left">description TEXT</td></tr>
     <tr><td></td><td align="left">cover_url VARCHAR(255)</td></tr>
-    <tr><td></td><td align="left">total_copies INT</td></tr>
-    <tr><td></td><td align="left">available_copies INT</td></tr>
+    <tr><td></td><td align="left">total_copies INT UNSIGNED</td></tr>
+    <tr><td></td><td align="left">available_copies INT UNSIGNED</td></tr>
     <tr><td align="left"><b>FK</b></td><td align="left">author_id INT</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">category_id INT</td></tr>
+    <tr><td align="left"><b>FK</b></td><td align="left">category_id INT NULL</td></tr>
   </table>>];
 
   loans [label=<
@@ -67,7 +67,8 @@ digraph ERD {
     <tr><td align="left"><b>PK</b></td><td align="left">id INT</td></tr>
     <tr><td align="left"><b>FK</b></td><td align="left">user_id INT</td></tr>
     <tr><td align="left"><b>FK</b></td><td align="left">book_id INT</td></tr>
-    <tr><td></td><td align="left">rating TINYINT (1-5)</td></tr>
+    <tr><td align="left"><b>UQ</b></td><td align="left">(user_id, book_id)</td></tr>
+    <tr><td></td><td align="left">rating TINYINT CHECK 1-5</td></tr>
     <tr><td></td><td align="left">comment TEXT</td></tr>
     <tr><td></td><td align="left">created_at DATETIME</td></tr>
   </table>>];

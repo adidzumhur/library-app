@@ -73,3 +73,61 @@ AI is used as an assistant, not as a decision-maker. The rules I follow:
 - **What was wrong:** The AI generated different publication years for the same book on two pages: the *Import by ISBN* preview (`frontend/views/books.html`) showed "1984" as published in 1950, while the book details page (`frontend/views/book-details.html`) showed 1949. AI-generated placeholder data cannot be assumed to be correct or consistent.
 - **How I noticed:** During a review of the generated pages before submission, by comparing the information shown for the same book on different pages.
 - **How it was fixed:** Corrected the year in `books.html` to 1949, so both pages show the same data. From Milestone 4 all data will come from the database through the API, so there will be no hard-coded duplicates.
+
+---
+
+## Milestone 2 – Database and DAO layer
+
+### Tools
+
+| Tool | Used for |
+|---|---|
+| Claude (claude.ai, chat) | SQL schema and sample data, DAO classes, DAO test script, documentation updates |
+
+### Division of work
+
+| Area | AI contribution | My contribution |
+|---|---|---|
+| Database schema | Wrote `database/library_db.sql` from the ERD | Defined the entities and relationships in Milestone 1; approved the delete rules (e.g. an author with books cannot be deleted) |
+| Sample data | Generated users, authors, categories, books, loans and reviews | Checked that the data is consistent (available copies match active loans) |
+| DAO layer | Wrote `Database.php`, `BaseDao.php` and six entity DAOs | Checked them against Milestone 2 requirement 2 (base DAO, CRUD, prepared statements, config file) |
+| Testing | Wrote `backend/tests/dao_test.php` | Imported the `.sql` file and ran the test locally |
+| Documentation | Updated README, AGENTS.md and ERD | Reviewed the changes |
+
+### Key prompts
+
+**1. Database from the ERD**
+> "Create the MySQL database for BookNest from the ERD in docs/ERD.md: primary and foreign keys, sensible ON DELETE rules, and an exported .sql file with realistic sample data, including one admin and several members with hashed passwords."
+
+*Outcome:* `database/library_db.sql` with 6 tables, foreign keys, UNIQUE and CHECK constraints, and sample data.
+
+**2. DAO layer**
+> "Implement the DAO layer following AGENTS.md: a Database class that reads credentials from backend/config/config.php, a BaseDao with reusable CRUD methods using prepared statements, and one DAO per entity with the queries the frontend pages will need."
+
+*Outcome:* `BaseDao` with `getAll`, `getById`, `insert`, `update`, `delete`; entity DAOs with extra queries (e.g. books with author and category names, loans of one user, average rating of a book).
+
+**3. Verification**
+> "Write a test script that runs create, read, update and delete for every DAO, cleans up after itself, and also checks SQL injection and foreign key behaviour."
+
+*Outcome:* `backend/tests/dao_test.php` – all checks pass on a fresh import of the `.sql` file.
+
+### Verification
+
+- [x] `library_db.sql` imports into an empty MySQL/MariaDB server without errors
+- [x] 6 tables with primary keys, foreign keys and sample data
+- [x] `BaseDao` with reusable CRUD methods; every entity DAO extends it
+- [x] All queries use prepared statements
+- [x] Credentials are read from `backend/config/config.php`; only `config.example.php` is committed
+- [x] `dao_test.php`: all checks pass, and running it twice gives the same result (test data is cleaned up)
+
+### Issues found in AI output
+
+**Issue 1 – Search matched every row when the term contained `_` or `%`**
+- **What was wrong:** The first version of `BookDao::search()` and `AuthorDao::searchByName()` built the pattern as `"%$term%"`. In SQL `LIKE`, `_` and `%` are wildcards, so searching for `_` or `%` returned all 10 books instead of none. Prepared statements protect against SQL injection, but they do not escape `LIKE` wildcards.
+- **How I noticed:** While testing the search queries with special characters, `search("_")` returned every book.
+- **How it was fixed:** Added `BaseDao::likePattern()`, which escapes `%`, `_` and `\` before building the pattern, and used it in both DAOs. Two checks were added to `dao_test.php` so the bug cannot come back. The rule was also added to `AGENTS.md`.
+
+**Issue 2 – The Milestone 1 ERD did not match the real database**
+- **What was wrong:** The AI-generated draft ERD from Milestone 1 did not define what happens to dependent rows when a parent row is deleted, did not stop a user from reviewing the same book twice, and used different column types than the final schema (e.g. `INT` instead of `SMALLINT` for years, `category_id` shown as required).
+- **How I noticed:** When the real tables were created, the questions "what happens to the books if an author is deleted?" and "can a user rate the same book twice?" had no answer in the ERD.
+- **How it was fixed:** Defined the delete rules (`RESTRICT` for authors with books, `SET NULL` for categories, `CASCADE` for loans and reviews), added a UNIQUE key on `reviews (user_id, book_id)` and CHECK constraints, and updated `docs/ERD.md`, `erd.dot` and `erd.png` to match `library_db.sql`. The rule "schema changes must update the ERD" was added to `AGENTS.md`.
