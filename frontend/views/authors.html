@@ -1,0 +1,50 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <h1 class="h3 page-title mb-0">Authors</h1>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#authorModal"><i class="bi bi-plus-lg me-1"></i>Add author</button>
+</div>
+
+<input type="search" class="form-control mb-3" placeholder="Search authors...">
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Name</th><th>Nationality</th><th>Birth year</th><th>Books</th><th class="text-end">Actions</th></tr></thead>
+      <tbody>
+        <tr><td>George Orwell</td><td>British</td><td>1903</td><td>2</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#authorModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>J.R.R. Tolkien</td><td>British</td><td>1892</td><td>3</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#authorModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>Robert C. Martin</td><td>American</td><td>1952</td><td>1</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#authorModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+        <tr><td>Meša Selimović</td><td>Bosnian</td><td>1910</td><td>2</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#authorModal" aria-label="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger" aria-label="Delete"><i class="bi bi-trash"></i></button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="authorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="authorModalLabel">Add / edit author</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-2">
+          <div class="col-sm-6 mb-3"><label class="form-label" for="author-first">First name</label><input class="form-control" id="author-first"></div>
+          <div class="col-sm-6 mb-3"><label class="form-label" for="author-last">Last name</label><input class="form-control" id="author-last"></div>
+        </div>
+        <div class="row g-2">
+          <div class="col-sm-6 mb-3"><label class="form-label" for="author-nationality">Nationality</label><input class="form-control" id="author-nationality"></div>
+          <div class="col-sm-6 mb-3"><label class="form-label" for="author-birth">Birth year</label><input type="number" class="form-control" id="author-birth"></div>
+        </div>
+        <div class="mb-3"><label class="form-label" for="author-bio">Biography</label><textarea class="form-control" id="author-bio" rows="3"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

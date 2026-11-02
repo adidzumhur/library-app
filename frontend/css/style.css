@@ -1,0 +1,75 @@
+:root {
+  --app-primary: #1f3a5f;
+  --app-primary-light: #2f5a8f;
+  --app-accent: #e0a526;
+  --app-bg: #f5f6f8;
+}
+
+body {
+  background: var(--app-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+.app-navbar { background: var(--app-primary); }
+.app-navbar .nav-link.active { color: var(--app-accent) !important; font-weight: 600; }
+
+.btn-primary {
+  --bs-btn-bg: var(--app-primary);
+  --bs-btn-border-color: var(--app-primary);
+  --bs-btn-hover-bg: var(--app-primary-light);
+  --bs-btn-hover-border-color: var(--app-primary-light);
+  --bs-btn-active-bg: var(--app-primary-light);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--app-primary);
+  --bs-btn-border-color: var(--app-primary);
+  --bs-btn-hover-bg: var(--app-primary);
+  --bs-btn-hover-border-color: var(--app-primary);
+  --bs-btn-active-bg: var(--app-primary);
+}
+
+a { color: var(--app-primary-light); }
+.nav-pills .nav-link.active { background: var(--app-primary); }
+
+.page-title { color: var(--app-primary); font-weight: 700; }
+
+/* Auth pages */
+.auth-wrapper {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-card { width: 100%; max-width: 420px; }
+.auth-logo { font-size: 2.5rem; color: var(--app-primary); }
+
+/* Dashboard stat cards */
+.stat-card { border: none; border-left: 4px solid var(--app-primary); }
+.stat-card .stat-icon { font-size: 2rem; color: var(--app-primary-light); }
+
+/* Book cover placeholder (real covers come from Open Library later) */
+.book-cover {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  color: #fff;
+  font-weight: 600;
+  border-radius: .375rem .375rem 0 0;
+}
+.cover-1 { background: linear-gradient(135deg, #1f3a5f, #4a7bb7); }
+.cover-2 { background: linear-gradient(135deg, #6b2d5c, #b5568f); }
+.cover-3 { background: linear-gradient(135deg, #2d6b4f, #56b58a); }
+.cover-4 { background: linear-gradient(135deg, #8a4b12, #e0a526); }
+.cover-large { height: 320px; border-radius: .5rem; }
+
+.card { box-shadow: 0 1px 3px rgba(0, 0, 0, .06); }
+.table td, .table th { vertical-align: middle; }
+.rating { color: var(--app-accent); }

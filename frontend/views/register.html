@@ -1,0 +1,40 @@
+<div class="auth-wrapper">
+  <div class="card auth-card p-4">
+    <div class="text-center mb-4">
+      <i class="bi bi-book-half auth-logo"></i>
+      <h1 class="h4 mt-2 page-title">Create an account</h1>
+      <p class="text-muted small mb-0">Become a library member</p>
+    </div>
+
+    <form id="register-form">
+      <div class="row g-2">
+        <div class="col-sm-6 mb-3">
+          <label for="reg-first-name" class="form-label">First name</label>
+          <input type="text" class="form-control" id="reg-first-name">
+        </div>
+        <div class="col-sm-6 mb-3">
+          <label for="reg-last-name" class="form-label">Last name</label>
+          <input type="text" class="form-control" id="reg-last-name">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="reg-email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="reg-email" placeholder="you@example.com">
+      </div>
+      <div class="mb-3">
+        <label for="reg-password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="reg-password">
+      </div>
+      <div class="mb-3">
+        <label for="reg-password-confirm" class="form-label">Confirm password</label>
+        <input type="password" class="form-control" id="reg-password-confirm">
+      </div>
+      <!-- Static for now: will call POST /auth/register in Milestone 4 -->
+      <a href="#login" class="btn btn-primary w-100">Register</a>
+    </form>
+
+    <p class="text-center small mt-3 mb-0">
+      Already have an account? <a href="#login">Sign in</a>
+    </p>
+  </div>
+</div>
