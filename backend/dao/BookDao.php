@@ -13,7 +13,7 @@ class BookDao extends BaseDao
     // Shared SELECT that adds the author name and category name to each book
     private const SELECT_WITH_DETAILS =
         "SELECT b.*,
-                CONCAT(a.first_name, ' ', a.last_name) AS author_name,
+                TRIM(CONCAT(a.first_name, ' ', a.last_name)) AS author_name, -- TRIM: authors with only a last name (e.g. Homer)
                 c.name AS category_name
          FROM books b
          JOIN authors a ON a.id = b.author_id

@@ -12,6 +12,10 @@
 --   tarik@example.com   / member123  (role: member)
 -- =====================================================================
 
+-- The client must send UTF-8, otherwise letters like č, ć, š, đ, ž are stored incorrectly
+-- (the mysql terminal client may default to latin1).
+SET NAMES utf8mb4;
+
 CREATE DATABASE IF NOT EXISTS library_db
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;

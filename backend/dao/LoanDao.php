@@ -50,6 +50,16 @@ class LoanDao extends BaseDao
         );
     }
 
+    /** Number of loans of a book that are not returned yet (a borrowed book cannot be deleted) */
+    public function countActiveByBook(int $bookId): int
+    {
+        $row = $this->queryOne(
+            "SELECT COUNT(*) AS count FROM loans WHERE book_id = :book_id AND status <> 'returned'",
+            ['book_id' => $bookId]
+        );
+        return (int) $row['count'];
+    }
+
     /** Marks borrowed loans whose due date has passed as overdue; returns how many were changed */
     public function markOverdue(): int
     {
