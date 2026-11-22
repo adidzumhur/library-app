@@ -76,6 +76,29 @@ abstract class BaseDao
         return $stmt->rowCount() > 0;
     }
 
+    /**
+     * Transactions: several queries that must all succeed or all be undone
+     * (e.g. borrowing a book = take one copy + insert the loan).
+     * All DAOs share one PDO connection (Database::getConnection), so a transaction
+     * started on one DAO also covers the queries of the other DAOs.
+     */
+    public function beginTransaction(): void
+    {
+        $this->connection->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->connection->commit();
+    }
+
+    public function rollBack(): void
+    {
+        if ($this->connection->inTransaction()) {
+            $this->connection->rollBack();
+        }
+    }
+
     /** Runs a custom SELECT with parameters and returns all rows (used by child DAOs) */
     protected function query(string $sql, array $params = []): array
     {

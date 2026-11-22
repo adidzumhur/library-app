@@ -29,4 +29,13 @@ class AuthorDao extends BaseDao
             ['term1' => $this->likePattern($term), 'term2' => $this->likePattern($term)]
         );
     }
+
+    /** Exact name match; used by the Open Library import to reuse an existing author */
+    public function getByFullName(string $firstName, string $lastName): ?array
+    {
+        return $this->queryOne(
+            'SELECT * FROM authors WHERE first_name = :first_name AND last_name = :last_name',
+            ['first_name' => $firstName, 'last_name' => $lastName]
+        );
+    }
 }

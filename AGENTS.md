@@ -23,6 +23,19 @@ imported by ISBN from the Open Library API.
      Only columns in `$columns` can be inserted or updated (column names cannot be prepared-statement parameters).
    - DAOs return arrays (or `null` when a row is not found) and never echo output or build HTTP responses.
    - The PDO connection is created only in `backend/dao/Database.php` and reads `backend/config/config.php`.
+   - Routes (`backend/routes/<entity>_routes.php`): no logic, no SQL. Read the body with
+     `Flight::request()->data->getData()`, call `Flight::<entity>Service()`, return `Flight::json($data, $status)`.
+     Services are registered in `backend/index.php` with `Flight::register()`.
+   - Services extend `BaseService` (getAll, getById with 404, create, update, delete) and implement `validate()`
+     with `utils/Validator.php`. Errors are thrown as `ApiException($message, $statusCode, $fieldErrors)`;
+     the error handler in `index.php` turns them into JSON. Never echo or build responses in a service.
+   - Status codes: 200 OK, 201 created, 400 validation/business rule, 404 not found, 500 unexpected,
+     503 external API unavailable (401/403 from Milestone 4).
+   - Writes that touch more than one table (borrow, return, import) run in a transaction
+     (`beginTransaction`/`commit`/`rollBack` on any DAO; all DAOs share one connection).
+   - The client never sends `available_copies` or `password_hash`; the services calculate them.
+   - External API calls only from `OpenLibraryService`: timeout from the config file, failures written to the
+     error log with `utils/Logger.php`, the user gets a friendly 503 message, the rest of the app keeps working.
 3. Middleware is registered in FlightPHP and reused; never copy auth/role checks into individual routes.
 4. Frontend MVC: only files in `frontend/js/services/` make AJAX calls; views never call the API directly.
 5. The SPA router is in `frontend/js/app.js`; each page is a template in `frontend/views/` and is loaded via the URL hash.
@@ -31,8 +44,12 @@ imported by ISBN from the Open Library API.
 
 ## Folder structure
 ```
-backend/  config/ dao/ services/ routes/ middleware/ logs/ tests/
+backend/  config/ dao/ services/ routes/ utils/ swagger/ middleware/ logs/ tests/
+          index.php (entry point)  .htaccess (rewrite to index.php)
           dao/Database.php  dao/BaseDao.php  dao/<Entity>Dao.php  tests/dao_test.php
+          services/BaseService.php  services/<Entity>Service.php  services/OpenLibraryService.php
+          routes/<entity>_routes.php  utils/ApiException.php  utils/Validator.php  utils/Logger.php
+          swagger/index.html (Swagger UI)  swagger/swagger.php (generates OpenAPI JSON)  swagger/openapi_setup.php (info + schemas)
 frontend/ index.html css/ js/ views/ assets/
 database/ library_db.sql  (schema + sample data)
 docs/     ERD.md erd.dot erd.png AI_LOG.md
@@ -55,5 +72,10 @@ docs/     ERD.md erd.dot erd.png AI_LOG.md
 - For `LIKE` searches use `BaseDao::likePattern()`, which escapes the `%` and `_` wildcards.
 - Any change to the database schema must be made in `database/library_db.sql` and reflected in `docs/ERD.md` and `docs/erd.dot`.
 - After changing a DAO, run `backend/tests/dao_test.php`; all checks must pass.
+- Every new endpoint gets an `@OA\...` docblock directly above its `Flight::route(...)` call; shared schemas
+  and responses go into `backend/swagger/openapi_setup.php`. After changing routes, open `backend/swagger/`
+  and check that the endpoint appears. `swagger.php` must use the `TokenAnalyser`, otherwise docblocks above
+  `Flight::route` calls are not found.
+- Dependencies (Composer): `flightphp/core`, `zircote/swagger-php`, `doctrine/annotations`. Do not add others without asking.
 - Add short comments explaining non-obvious logic.
 - Do not commit or print secrets.
